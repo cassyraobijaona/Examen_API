@@ -1,37 +1,43 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 
 app = FastAPI()
 
-@app.get("/")
+@app.get("/hello")
 def read_root():
-    return {"message": "Hello, Cassy !"}
+    return {"message": "Hello world"}
 
-@app.get("/hello/{name}")
-def say_hello(name: str):
-    return {"message": f"Bonjour, {name} !"}
 
-@app.get("/addition")
-def addition(a: int, b: int):
-    return {"résultat": a + b}
+@app.get("/welcome/{name}")
+async def say_welcome (name: str):
+    return {"message": f"Welcome, {name} "}
 
-class Utilisateur(BaseModel):
-    nom: str
-    age: int
 
-@app.post("/utilisateur")
-def creer_utilisateur(utilisateur: Utilisateur):
+
+@app.post("/students")
+class students (
+    reference : str ;
+    firstName : str ;
+    lastName : str ;
+    age : int ;
+)
+
+def creer_students(students: Students):
     return {
-        "message": f"Utilisateur {utilisateur.nom} créé avec succès.",
-        "données": utilisateur
+        "message": f"Students {students.id}, {students.firstName},"
+                   f"{students.lastName}, {students.age} créé avec succès.",
     }
 
-@app.put("/utilisateur/{nom}")
-def mettre_a_jour_utilisateur(nom: str, utilisateur: Utilisateur):
+
+
+@app.get("students")
+def read_root():
+    return {"message": f"Students {students.Students} contenu de la "
+                       f"liste d'objets ."}
+
+@app.put("/students/{reference}")
+def mettre_a_jour_reference(reference: str, students: app):
     return {
-        "message": f"{nom} mis à jour en {utilisateur.nom}, {utilisateur.age} ans."
+        "message": f"{reference} mis à jour en {students.reference}, "
     }
 
-@app.delete("/utilisateur/{nom}")
-def supprimer_utilisateur(nom: str):
-    return {"message": f"Utilisateur {nom} supprimé."}
+
